@@ -1,0 +1,18 @@
+diff -up sblim-sfcc-2.2.1/frontend/sfcc/sfcclient.c.orig sblim-sfcc-2.2.1/frontend/sfcc/sfcclient.c
+--- sblim-sfcc-2.2.1/frontend/sfcc/sfcclient.c.orig	2010-05-18 14:54:40.646445551 +0200
++++ sblim-sfcc-2.2.1/frontend/sfcc/sfcclient.c	2010-05-18 14:56:35.960465352 +0200
+@@ -109,6 +109,14 @@ CMCIClient *cmciConnect2(const char *hn,
+     }
+   }
+   pthread_mutex_unlock(&ConnectionControl.ccMux);
++  if (!cc) {
++    /* cleanup ccEnv after pthread_mutex_unlock */
++    cmciRelease(NULL);
++    if (rc) {
++      rc->rc = CMPI_RC_ERR_FAILED;
++      rc->msg = NULL;
++    }
++  }
+   return cc;
+ }
+ 

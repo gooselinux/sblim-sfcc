@@ -1,0 +1,19 @@
+diff -up sblim-sfcc-2.2.1/frontend/sfcc/sfcclient.c.orig sblim-sfcc-2.2.1/frontend/sfcc/sfcclient.c
+--- sblim-sfcc-2.2.1/frontend/sfcc/sfcclient.c.orig	2010-03-15 15:00:26.769440570 +0100
++++ sblim-sfcc-2.2.1/frontend/sfcc/sfcclient.c	2010-03-15 15:01:48.255398071 +0100
+@@ -236,11 +236,14 @@ char * value2Chars (CMPIType type, CMPIV
+       case CMPI_filter:
+          break;
+ 
++      case CMPI_chars:
++         return strdup(value->chars ? (char*)value->chars : "NULL");
++         break;
++
+       case CMPI_string:
+       case CMPI_numericString:
+       case CMPI_booleanString:
+       case CMPI_dateTimeString:
+-      case CMPI_classNameString:
+          return strdup((value->string && value->string->hdl) ?
+              (char*)value->string->hdl : "NULL");
+ 
